@@ -1,27 +1,38 @@
-const canvas = document.querySelector("canvas"),
-ctx = canvas.getContext("2d"); // get context returns the drawing contest on the canvas
+// index.js
+const canvas = document.getElementById("main"),
+      ctx = canvas.getContext("2d");
 
 let isDrawing = false,
-brushWidth = 5;
-
-
+    brushWidth = 5,
+    currentColor = 'black';
 
 window.addEventListener("load", () => {
-
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 });
 
-const startDraw = () =>{
+const startDraw = () => {
     isDrawing = true;
-    ctx.beginPath();// creating a newpath to draw
+    ctx.beginPath();
     ctx.lineWidth = brushWidth;
-}
+    ctx.strokeStyle = currentColor;
+};
+
 const drawing = (e) => {
-    if(!isDrawing) return; // 
-    ctx.lineTo(e.offsetX, e.offsetY);// creating line according to the mouse movement
-    ctx.stroke();// drawing line with colotr
-}
+    if (!isDrawing) return;
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+};
+
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-canvas.addEventListener("mouseup", () => drawing = false);
+canvas.addEventListener("mouseup", () => isDrawing = false);
+
+const changeColor = (color) => {
+    currentColor = color;
+};
+
+const changeBrushSize = () => {
+    brushWidth = document.getElementById("slider").value;
+    document.getElementById("brushSize").innerText = brushWidth;
+};
